@@ -1,36 +1,27 @@
-import { useState } from "react";
-import TodoList from "./components/todos/TodoList";
-import TodoWrite from "./components/todos/TodoWrite";
-import { TodoProvider } from "./contexts/todos/context";
+import { CounterProvider } from "./contexts/counter/context";
+import { useCounter } from "./contexts/counter/useCounter";
+import { useTheme } from "./contexts/theme/ThemeContext";
 
-function App() {
-  // js 자리
-  // 오로지 하나만 편집이 가능하도록 ID 를 저장해둠
-  const [editId, setEditId] = useState(null);
-  // 편집을 시작함
-  const onStartEdit = id => {
-    setEditId(id);
-  };
-  // 편집을 종료함
-  const onEndEdit = () => {
-    setEditId(null);
-  };
+const Popup = () => {
+  const { theme, fontSize } = useTheme();
+  return <div className={`bg-${theme}-500 font-[${fontSize}px]`}>팝업창</div>;
+};
 
-  // jsx 자리
+const CounterComponent = () => {
+  const { v, add } = useCounter();
   return (
     <div>
-      <h1>할일 앱 서비스</h1>
-      <TodoProvider>
-        <div>
-          <TodoWrite onEndEdit={onEndEdit} />
-          <TodoList
-            editId={editId}
-            onEndEdit={onEndEdit}
-            onStartEdit={onStartEdit}
-          />
-        </div>
-      </TodoProvider>
+      {v}카운터
+      <button onClick={() => add(5)}>5 증가</button>
     </div>
+  );
+};
+
+function App() {
+  return (
+    <CounterProvider>
+      <CounterComponent />
+    </CounterProvider>
   );
 }
 
