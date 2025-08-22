@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useTodos } from "../../contexts/todos/useTodos";
+import { useNavigate } from "react-router-dom";
 
-const TodoWrite = ({ onEndEdit }) => {
+const TodoWrite = () => {
   // js 자리
   const { addTodo } = useTodos();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const handleKeyDown = e => {
@@ -21,7 +23,8 @@ const TodoWrite = ({ onEndEdit }) => {
       };
       addTodo(newTodo);
       setTitle("");
-      onEndEdit();
+      // 목록 페이지로 이동
+      navigate("/todos");
     }
   };
   // jsx 자리
